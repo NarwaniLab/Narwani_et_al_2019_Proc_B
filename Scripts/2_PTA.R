@@ -297,9 +297,9 @@ summary(OO)
 #p number of time points
 
 Rownames=rownames(Y)
-rows = Rownames [which(wrk$period == "D")] 
-gr=taxa[41:60]
-algaegroups<-c("Cyanobacteria", "Golden algae", "Diatoms", "Dinoflagellates", "Cryptophytes", "Green algae")
+rows = Rownames [which(wrk$period == "D")] #data for your final timepoint
+gr=taxa[1:20] #treatments for each of your experimental replicates - ordered as they were for your PCA data
+algaegroups<-c("Cyanobacteria", "Golden algae", "Diatoms", "Dinoflagellates", "Cryptophytes", "Green algae") #names of actual species/groups
 
 
 tiff(paste("PTA_period.tiff"), width = 14, height = 7, pointsize = 1/2000, units = 'in', res = 450)
@@ -371,11 +371,11 @@ for (i in 1:n){
   points(traj.specs.obs[p,pcx,i],traj.specs.obs[p,pcy,i],pch=21,bg=myColors[i],cex=2,col=myColors[i])
 }
 
-A=as.numeric(Y[rows,pcx])
-B=as.numeric(Y[rows,pcy])
-groupmultiplier = length(A)/20
-sp<-substr(species,start=5,stop=100)
-grps=rep(gr,groupmultiplier)
+A=as.numeric(Y[rows,pcx]) #Values for PCA axis x
+B=as.numeric(Y[rows,pcy]) #Values for PCA axis y
+groupmultiplier = length(A)/20 #Used this to get the groups/treatments for the PCA values. groupmultiplier defines number of experimental units, 20 in my case - e.g. no. of ponds or mesosocosms. 
+sp<-substr(species,start=5,stop=100) #species or taxonomic group 
+grps=rep(gr,groupmultiplier) #groups or treatments associated with the data in A and B. Repeat the treatment list by the number of times each was observed (groupmultiplier).
 
 dataEllipse(A,B,groups=grps,group.labels="",col=myColors,center.cex=1.5,add=T,levels=0.5,lwd=0,fill=T,fill.alpha=0.05,plot.points = F) 
 arrows(rep(0,7),rep(0,7),OO$rotation[,pcx],OO$rotation[,pcy],col="black",length=0.1, angle=40,lwd=1)
